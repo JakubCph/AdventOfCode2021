@@ -1,4 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using SonarSweep;
+using static SonarSweep.Pilot;
+
 Console.WriteLine("Hello, World!");
 
 IList<int> inputDepths = new List<int>();
@@ -6,9 +9,26 @@ foreach (var line in File.ReadLines(@"DepthsScanReport.txt"))
 {
     inputDepths.Add(int.Parse(line));   
 }
-int numberOfIncreasedDepths = Calculate3MeasurementSlidingWindow(inputDepths).Count(e => e.Equals(Depth.Increased));
+int numberOfIncreasedDepths = Calculate3MeasurementSlidingWindow(inputDepths).Count(e => e.Equals(DepthChange.Increased));
 
 Console.WriteLine($"Increased depths: {numberOfIncreasedDepths}");
+
+/* Sonar Sweep */
+var pilot = new Pilot();
+foreach(string? line in File.ReadLines(@"PlannedCourse.txt"))
+{
+    if(line is not null)
+    {
+        var parts= line.Split(' ');
+        Direction direction = (Direction) Enum.Parse(typeof(Direction), parts[0]);
+        int step = int.Parse(parts[1]);
+
+        pilot.Move2(direction, step);
+    }
+}
+Console.WriteLine($"Horizontal position * depth = {pilot.HorizontalPosition * pilot.Depth}");
+
+
 
 static IList<bool>? CalculateIncreasedDepths(IList<int> depths)
 {
@@ -21,11 +41,11 @@ static IList<bool>? CalculateIncreasedDepths(IList<int> depths)
     }
     return result;
 }
-static IList<Depth> Calculate3MeasurementSlidingWindow(IList<int> input)
+static IList<DepthChange> Calculate3MeasurementSlidingWindow(IList<int> input)
 {
-    if (input is null || input.Count < 4) return new List<Depth>();
+    if (input is null || input.Count < 4) return new List<DepthChange>();
 
-    List<Depth> result = new();
+    List<DepthChange> result = new();
     int lastSum = 0;
     int secondLastSum = input[0] + input[1] + input[2];
     for (int idxL = 0, idxR = 3; idxR < input.Count; idxL++, idxR++)
@@ -37,18 +57,18 @@ static IList<Depth> Calculate3MeasurementSlidingWindow(IList<int> input)
     return result;
 }
 
-static Depth CompareSums(int secondLastSum, int lastSum)
+static DepthChange CompareSums(int secondLastSum, int lastSum)
 {
     int comparison = lastSum.CompareTo(secondLastSum);
     return comparison switch
     {
-        0 => Depth.NoChange,
-        > 0 => Depth.Increased,
-        < 0 => Depth.Decreased
+        0 => DepthChange.NoChange,
+        > 0 => DepthChange.Increased,
+        < 0 => DepthChange.Decreased
     };
 }
 
-enum Depth
+enum DepthChange
 {
     Increased,
     Decreased,
