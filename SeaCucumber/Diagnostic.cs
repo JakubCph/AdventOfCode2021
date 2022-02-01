@@ -46,28 +46,74 @@ namespace SonarSweep
 
         }
 
-        //public void CalculateLifeSupportingRate()
-        //{
-        //    IList<ushort>? report = ReadInReport();
-        //    int OxygenGenRate = FindOxygenGeneratorRate(report);
-        //}
-
-        //private int FindOxygenGeneratorRate(IList<ushort> report)
-        //{
-
-        //}
-
-        private IList<ushort> ReadInReport()
+        public long CalculateLifeSupportRating()
         {
-            var report = new List<ushort>();
-            foreach (string? line in File.ReadLines(diagnosticsFile))
+            string[]? report = File.ReadAllLines(diagnosticsFile);
+            if (report is null) throw new Exception("Report is empty") ;
+
+            int OxygenRating = CalculateRating(report, RatingType.OxygenGenRating);
+            int CO2Rating = CalculateRating(report, RatingType.CO2ScrubberRating);
+            return OxygenRating * CO2Rating;
+        }
+
+        enum RatingType
+        {
+            OxygenGenRating,
+            CO2ScrubberRating
+        }
+        private int CalculateRating(string[] report, RatingType type)
+        {
+            string[] reportCopy = CopyArray(report);
+
+            int bitPos = 0;
+            while (RatingNotFound(reportCopy))
             {
-                if (line is not null)
-                {
-                    report.Add(ushort.Parse(line));
-                }
+                //find most common bit
+                char bit = FindMostOrLeastCommonBit(type == RatingType.OxygenGenRating, reportCopy, bitPos);
+                //filter report
+                reportCopy = reportCopy.Where(b => b[bitPos] == bit).ToArray();
+                //move to the next bit
+                bitPos++;
             }
-            return report;
+            return Convert.ToInt32(reportCopy[0], 2);
+        }
+
+        private char FindMostOrLeastCommonBit(bool most, string[] array, int bitPos)
+        {
+            int len = array.Length;
+            int zeros = 0;
+            int ones = 0;
+            
+            int i = 0;
+            while (i < len && Math.Max(zeros,ones) <= len/2)
+            {
+                if(array[i][bitPos] == '0') zeros++;
+                else ones++;
+
+                i++;
+            }
+            
+            if (most)
+            {
+                return (ones >= zeros) ? '1' : '0';
+            }
+            else
+            {
+                return (zeros <= ones) ? '0' : '1';
+            }
+        }
+
+        private static string[] CopyArray(string[] report)
+        {
+            int arrL = report.Length;
+            string[] reportCopy = new string[arrL];
+            Array.Copy(report, reportCopy, arrL);
+            return reportCopy;
+        }
+
+        private static bool RatingNotFound(string[] reportCopy)
+        {
+            return reportCopy.Length > 1;
         }
     }
 }
