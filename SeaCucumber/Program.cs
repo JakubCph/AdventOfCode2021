@@ -29,6 +29,10 @@ foreach(string? line in File.ReadLines(@"PlannedCourse.txt"))
 Console.WriteLine($"Horizontal position * depth = {pilot.HorizontalPosition * pilot.Depth}");
 
 
+var diag = new Diagnostic();
+diag.CalculateParameters();
+Console.WriteLine($"Power consumption is {diag.Gamma * diag.Epsilon}");
+
 
 static IList<bool>? CalculateIncreasedDepths(IList<int> depths)
 {

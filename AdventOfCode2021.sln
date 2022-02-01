@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarSweep", "SeaCucumber\SonarSweep.csproj", "{9342E9A4-E210-45BB-B85F-B5E80BE6050C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarSweep", "SeaCucumber\SonarSweep.csproj", "{9342E9A4-E210-45BB-B85F-B5E80BE6050C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarSweepTests", "SonarSweepTests\SonarSweepTests.csproj", "{E74F20A7-354C-463A-AD7D-D6A76C955930}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9342E9A4-E210-45BB-B85F-B5E80BE6050C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9342E9A4-E210-45BB-B85F-B5E80BE6050C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9342E9A4-E210-45BB-B85F-B5E80BE6050C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E74F20A7-354C-463A-AD7D-D6A76C955930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E74F20A7-354C-463A-AD7D-D6A76C955930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E74F20A7-354C-463A-AD7D-D6A76C955930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E74F20A7-354C-463A-AD7D-D6A76C955930}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
