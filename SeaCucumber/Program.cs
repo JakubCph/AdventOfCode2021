@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using SonarSweep;
+using SonarSweep.BingoGame;
 using static SonarSweep.Pilot;
 
 Console.WriteLine("Hello, World!");
@@ -32,6 +33,15 @@ Console.WriteLine($"Horizontal position * depth = {pilot.HorizontalPosition * pi
 var diag = new Diagnostic();
 diag.CalculateParameters();
 Console.WriteLine($"Power consumption is {diag.Gamma * diag.Epsilon}");
+
+var bingo = new BingoGame();
+var result = bingo.Play();
+Console.WriteLine($"The winning board scored {result}");
+
+bingo = new BingoGame();
+result = bingo.PlayForLastWinningBoard();
+Console.WriteLine($"The last winning board scored {result}");
+
 
 
 static IList<bool>? CalculateIncreasedDepths(IList<int> depths)
