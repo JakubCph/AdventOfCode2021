@@ -2,6 +2,7 @@
 using SonarSweep;
 using SonarSweep.BingoGame;
 using SonarSweep.HydrothermalVenture;
+using SonarSweep.LanthernFish;
 using static SonarSweep.Pilot;
 
 Console.WriteLine("Hello, World!");
@@ -46,6 +47,13 @@ Console.WriteLine($"The last winning board scored {result}");
 var ventsMap = new VentsMap();
 var overlapping = ventsMap.CalcOverlappingLines();
 Console.WriteLine($"Overlapping vents are {overlapping}");
+
+var fishSchool = new FishSimulation();
+fishSchool.SimulateForDays(80);
+fishSchool.SimulateForDays(80);
+Console.WriteLine($"After 80 days is {fishSchool.Count}");
+fishSchool.SimulateForLongDays(256);
+Console.WriteLine($"After 256 days is {fishSchool.CountLongSimulation}");
 
 static IList<bool>? CalculateIncreasedDepths(IList<int> depths)
 {
