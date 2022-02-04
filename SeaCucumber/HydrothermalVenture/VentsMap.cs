@@ -19,7 +19,7 @@ namespace SonarSweep.HydrothermalVenture
                 if (textLine is not null)
                 {
                     var line = new Line(textLine);
-                    if (line.IsHorizontal || line.IsVertical)
+                    if (line.IsHorizontal || line.IsVertical || line.IsDiagonal)
                     {
                         DrawLine(line);
                     }
@@ -41,6 +41,25 @@ namespace SonarSweep.HydrothermalVenture
                 for (int i = Math.Min(line.P1.x, line.P2.x); i <= Math.Max(line.P1.x, line.P2.x); i++)
                 {
                     Map[i, line.P1.y]++;
+                }
+            }
+            else if (line.IsDiagonal)
+            {
+                var minPoint = (x: Math.Min(line.P1.x, line.P2.x), y: Math.Min(line.P1.y, line.P2.y));
+                var maxPoint = (x: Math.Max(line.P1.x, line.P2.x), y: Math.Max(line.P1.y, line.P2.y));
+                if (minPoint == line.P1 || minPoint == line.P2) //diagonal increasing in both directions
+                {
+                    for (int x = minPoint.x,y = minPoint.y ; x <= maxPoint.x && y<= maxPoint.y; x++, y++)
+                    {
+                        Map[x, y]++;
+                    }
+                }
+                else
+                { //diagonal increasing in x and, decreasing in y
+                    for (int x = minPoint.x, y = maxPoint.y; x <= maxPoint.x && y >= minPoint.y ; x++, y--)
+                    {
+                        Map[x, y]++;
+                    }
                 }
             }
         }

@@ -19,6 +19,7 @@
 
             public bool IsHorizontal => P1.y == P2.y;
             public bool IsVertical => P1.x == P2.x;
+            public bool IsDiagonal => Math.Abs(P1.x - P2.x) == Math.Abs(P1.y - P2.y); // angle 45 deg - square
         };
     }
 }
