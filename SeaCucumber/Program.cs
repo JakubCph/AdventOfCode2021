@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using SonarSweep;
 using SonarSweep.BingoGame;
+using SonarSweep.HydrothermalVenture;
 using static SonarSweep.Pilot;
 
 Console.WriteLine("Hello, World!");
@@ -42,7 +43,9 @@ bingo = new BingoGame();
 result = bingo.PlayForLastWinningBoard();
 Console.WriteLine($"The last winning board scored {result}");
 
-
+var ventsMap = new VentsMap();
+var overlapping = ventsMap.CalcOverlappingLines();
+Console.WriteLine($"Overlapping vents are {overlapping}");
 
 static IList<bool>? CalculateIncreasedDepths(IList<int> depths)
 {
