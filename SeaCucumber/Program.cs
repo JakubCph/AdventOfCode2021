@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using SonarSweep;
 using SonarSweep.BingoGame;
+using SonarSweep.Display;
 using SonarSweep.HydrothermalVenture;
 using SonarSweep.LanthernFish;
 using SonarSweep.TreacheryOfWhales;
@@ -54,9 +55,16 @@ using static SonarSweep.Pilot;
 //fishSchool.SimulateForLongDays(256);
 //Console.WriteLine($"After 256 days is {fishSchool.CountLongSimulation}");
 
-var crabSim = new CrabSimulation();
-var res = crabSim.CalcHorizontalPos();
-Console.WriteLine($"Min fuel expense at {res.fuel}, happens for position: {res.position}");
+//var crabSim = new CrabSimulation();
+//var res = crabSim.CalcHorizontalPos();
+//Console.WriteLine($"Min fuel expense at {res.fuel}, happens for position: {res.position}");
+
+string path = @"Display\Input.txt";
+var digitCount = File.ReadAllLines(path)
+    .Select(l => new OutValue(l.Split('|')[1]))
+    .Select(d => d.DigitCount)
+    .Aggregate((sum, next) => sum += next );
+Console.WriteLine($"Digits 1,4,7,8 appear {digitCount} times");
 
 
 static IList<bool>? CalculateIncreasedDepths(IList<int> depths)
